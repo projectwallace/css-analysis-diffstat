@@ -1,0 +1,53 @@
+{
+  "name": "css-analysis-diffstat",
+  "description": "Get a git-like diffstat from a css-analyzer-diff and see how much your stats have changed.",
+  "version": "0.1.0",
+  "homepage": "https://www.projectwallace.com/oss",
+  "repository": "https://github.com/bartveneman/css-analysis-diffstat",
+  "issues": "https://github.com/bartveneman/css-analysis-diffstat/issues",
+  "license": "MIT",
+  "author": "Bart Veneman",
+  "keywords": [
+    "diff",
+    "diffstat",
+    "projectwallace",
+    "git-diff"
+  ],
+  "scripts": {
+    "test": "xo && nyc ava test"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">=8.0"
+  },
+  "devDependencies": {
+    "ava": "^1.4.0",
+    "nyc": "^13.3.0",
+    "prettier": "^1.16.4",
+    "xo": "^0.24.0"
+  },
+  "xo": {
+    "prettier": true
+  },
+  "prettier": {
+    "useTabs": true,
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "proseWrap": "always",
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.md"
+        ],
+        "options": {
+          "useTabs": false
+        }
+      }
+    ]
+  }
+}
