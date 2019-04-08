@@ -11,15 +11,21 @@ module.exports = diff => {
 			}
 
 			// Numeric diff (total rules, file size)
+			// Only return *that* something has changed, not how much,
+			// because the impact can differ greatly depending on the
+			// metric. File size usually changes more than # of rules.
 			if (value.diff) {
 				return {
-					changes: Math.abs(value.diff.absolute),
-					additions: value.diff.absolute > 0 ? value.diff.absolute : 0,
-					deletions: value.diff.absolute < 0 ? Math.abs(value.diff.absolute) : 0
+					changes: Math.abs(value.diff.absolute) > 0 ? 1 : 0,
+					additions: value.diff.absolute > 0 ? 1 : 0,
+					deletions: value.diff.absolute < 0 ? 1 : 0
 				}
 			}
 
-			// Strings and complicated structures
+			// Strings and complicated structures.
+			// Always return that the value has changed, as both an
+			// addition and a deletion: the old value has been
+			// deleted and a new one has been added.
 			return {
 				changes: value.changed ? 1 : 0,
 				additions: value.changed ? 1 : 0,

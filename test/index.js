@@ -105,6 +105,18 @@ test('it counts the correct amount of changes for numbers', t => {
 				additions: 0,
 				deletions: 1
 			}
+		],
+		[
+			{
+				'stylesheets.size': {
+					diff: {absolute: 123456789}
+				}
+			},
+			{
+				changes: 1,
+				additions: 1,
+				deletions: 0
+			}
 		]
 	]
 
@@ -130,7 +142,7 @@ test('it handles multiple types of stats correctly', t => {
 			{
 				'colors.total': {diff: {absolute: 2}},
 				'rules.total': {diff: {absolute: -1}},
-				'selectors.identifiers.max.value': {changed: true},
+				'selectors.identifiers.max.value': {changed: true}, // 1 deletion, 1 addition
 				'colors.unique': [
 					{
 						added: true,
@@ -145,8 +157,8 @@ test('it handles multiple types of stats correctly', t => {
 				]
 			},
 			{
-				changes: 5,
-				additions: 4,
+				changes: 4,
+				additions: 3,
 				deletions: 2
 			}
 		]
