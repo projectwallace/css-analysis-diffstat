@@ -25,43 +25,55 @@ const cssAnalysisDiffStat = require('css-analysis-diffstat')
 
 // Diff calculated by https://github.com/bartveneman/css-analyzer-diff
 const cssAnalyzerDiff = {
-	'values.colors.unique': [
-		{
-			value: 'brown',
-			added: false,
-			changed: true,
-			removed: true
-		},
-		{
-			value: 'red',
-			added: false,
-			changed: false,
-			removed: false
-		}
-	],
-	'selectors.total': {
-		changed: true,
-		oldValue: 1,
-		newValue: 2,
-		diff: {relative: 1, absolute: 1}
-	},
-	'values.prefixed.unique': [
-		{
-			value: '-moz-user-select',
-			changed: true,
-			added: true,
-			removed: false
-		}
-	]
+  'colors.total': {
+    oldValue: 2,
+    newValue: 4,
+    changed: true,
+    diff: {absolute: 2, relative: 1}
+  },
+  'rules.total': {
+    oldValue: 4,
+    newValue: 2,
+    changed: true,
+    diff: {absolute: -2, relative: -0.5}
+  },
+  'declarations.importants.total': {
+    oldValue: 1,
+    newValue: 0,
+    changed: true,
+    diff: {absolute: -1, relative: -1}
+  },
+  'selectors.identifiers.max.value': {
+    oldValue: 'oldValue',
+    newValue: 'newValue',
+    changed: true
+  },
+  'colors.unique': [
+    {
+      value: 'red',
+      added: true,
+      changed: true,
+      removed: false
+    },
+    {
+      value: 'blue',
+      added: false,
+      changed: false,
+      removed: false
+    }
+  ]
 }
 
 const diffStat = cssAnalysisDiffStat(cssAnalyzerDiff)
 
 // =>
 {
-	changes: 3,
-	deletions: 1,
-	additions: 1
+  changes: 5,
+  additions: 4,
+  deletions: 4,
+  changeRatio: 0.8,
+  additionRatio: 0.5,
+  deletionRatio: 0.5
 }
 ```
 

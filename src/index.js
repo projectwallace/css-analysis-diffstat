@@ -1,48 +1,54 @@
+const listStat = require('./list-stat')
+const numberStat = require('./number-stat')
+const stringStat = require('./string-stat')
+
 module.exports = diff => {
-	return Object.values(diff)
+	const allMetrics = Object.values(diff)
+
+	const diffStat = allMetrics
 		.map(value => {
 			// List diff (unique selectors, unique colors)
 			if (Array.isArray(value)) {
-				return {
-					changes: value.filter(item => item.changed).length,
-					additions: value.filter(item => item.added).length,
-					deletions: value.filter(item => item.removed).length
-				}
+				return listStat(value)
 			}
 
 			// Numeric diff (total rules, file size)
-			// Only return *that* something has changed, not how much,
-			// because the impact can differ greatly depending on the
-			// metric. File size usually changes more than # of rules.
 			if (value.diff) {
-				return {
-					changes: Math.abs(value.diff.absolute) > 0 ? 1 : 0,
-					additions: value.diff.absolute > 0 ? 1 : 0,
-					deletions: value.diff.absolute < 0 ? 1 : 0
-				}
+				return numberStat(value)
 			}
 
 			// Strings and complicated structures.
-			// Always return that the value has changed, as both an
-			// addition and a deletion: the old value has been
-			// deleted and a new one has been added.
-			return {
-				changes: value.changed ? 1 : 0,
-				additions: value.changed ? 1 : 0,
-				deletions: value.changed ? 1 : 0
-			}
+			return stringStat(value)
 		})
 		.reduce(
 			(total, metric) => {
 				total.changes += metric.changes
 				total.additions += metric.additions
 				total.deletions += metric.deletions
+				total.changeRatio += metric.changeRatio
+				total.additionRatio += metric.additionRatio
+				total.deletionRatio += metric.deletionRatio
 				return total
 			},
 			{
 				changes: 0,
 				additions: 0,
-				deletions: 0
+				deletions: 0,
+				changeRatio: 0,
+				additionRatio: 0,
+				deletionRatio: 0
 			}
 		)
+
+	// Prevent divisionByZeroErrors
+	if (allMetrics.length === 0) {
+		return diffStat
+	}
+
+	return {
+		...diffStat,
+		changeRatio: diffStat.changeRatio / allMetrics.length,
+		additionRatio: diffStat.additionRatio / allMetrics.length,
+		deletionRatio: diffStat.deletionRatio / allMetrics.length
+	}
 }
