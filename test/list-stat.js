@@ -69,7 +69,12 @@ test('it calculates changed ratio without changes present', t => {
 })
 
 test('it calculates addition ratio', t => {
-	const fixture = [{added: false}, {added: false}, {added: true}, {added: true}]
+	const fixture = [
+		{added: false},
+		{added: false},
+		{added: true},
+		{added: true}
+	]
 	const actual = diffStat(fixture)
 	const expected = 0.5
 
